@@ -1,66 +1,91 @@
 ﻿namespace ResultRail;
 
-public readonly struct Result
+public readonly struct Solution
     : IResult
 {
     public  bool IsSuccess { get; }
     
+    public bool IsFailure
+        => !IsSuccess;
+
     public Error? Error { get; }
-    
-    private Result(bool isSuccess,
+
+    public string Message { get; }
+
+    private Solution(bool isSuccess,
+        string? message,
         Error? error)
     {
         IsSuccess = isSuccess;
         Error = error;
+        Message = message ?? 
+                  error?.Message ?? 
+                  error?.Exception?.Message ??
+                  string.Empty;
     }
     
-    public static Result Success() 
-        => new (true, null);
+    public static Solution Success() 
+        => new (true, null, null);
     
-    public static Result Fail(string message, Exception? exception = null)
-        => new (false, new (message, exception));
+    public static Solution Fail(string message, Exception exception)
+        => new (false, message,  new (message, exception));
+
+    public static Solution Fail(Exception exception)
+        => new (false, null, new (exception));
+    
+    public static Solution Fail(string message)
+        => new (false, message, null);
 }
 
-public readonly struct Result<T>
-    : IResult<T> where T : new
+public readonly struct Solution<T>
+    : IResult<T> where T : new()
 {
     public bool IsSuccess { get; }
+    
+    public bool IsFailure
+        => !IsSuccess;
+
     public Error? Error { get; }
- 
+
+    public string Message { get; }
+
     public T Value { get; }
 
-    public Result(bool isSuccess,
+    private Solution(bool isSuccess,
+        string? message,
         Error? error,
         T value)
     {
         IsSuccess = isSuccess;
         Error = error;
         Value = value;
+        Message = message ?? 
+                  error?.Message ?? 
+                  error?.Exception?.Message ??
+                  string.Empty;
     }
 
-    public static Result<T> Success(T value)
-        => new (true, null, value);
+    public static Solution<T> Success(T value)
+        => new (true, null, null, value);
     
-    public static Result<T> Fail(string message, Exception? exception = null)
-        => new (false, new (message, exception), default!);
+    public static Solution<T> Fail(Exception exception)
+        => new (false, null, new (exception), default!);
+    
+    public static Solution<T> Fail(string message)
+        => new (false, message, null, default!);
+    
+    public static Solution<T> Fail(Error? error)
+        => new (false, error?.Message, error, default!);
+    
+    public static Solution<T> RailWay(Func<Solution<T>> predicate)
+    {
+        var predicateResult = predicate();
+
+        if (predicateResult.IsFailure)
+            return predicateResult.Error is not null
+                ? Fail(predicateResult.Error)
+                : Fail(predicateResult.Message);
+
+        return predicateResult;
+    }
 }
-
-public interface IResult
-{
-    bool IsSuccess { get; }
-    bool IsFailure
-        => !IsSuccess;
-    Error? Error { get; }
-    string Message
-        => Error?.Message ?? string.Empty;
-}
-
-public interface IResult<out T>
-    : IResult where T : new()
-{
-    T Value { get; }
-}
-
-
-
-public record struct Error(string Message, Exception? Exception);

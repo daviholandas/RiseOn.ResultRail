@@ -3,9 +3,16 @@
 public interface IResult
 {
     bool IsSuccess { get; }
-    bool IsFailure
-        => !IsSuccess;
+    
+    bool IsFailure {get;}
+
     Error? Error { get; }
-    string Message
-        => Error?.Message ?? string.Empty;
+
+    string Message { get; }
+}
+
+public interface IResult<out T>
+    : IResult where T : new()
+{
+    T Value { get; }
 }
