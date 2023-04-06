@@ -76,16 +76,4 @@ public readonly struct Solution<T>
     
     public static Solution<T> Fail(Error? error)
         => new (false, error?.Message, error, default!);
-    
-    public static Solution<T> RailWay(Func<Solution<T>> predicate)
-    {
-        var predicateResult = predicate();
-
-        if (predicateResult.IsFailure)
-            return predicateResult.Error is not null
-                ? Fail(predicateResult.Error)
-                : Fail(predicateResult.Message);
-
-        return predicateResult;
-    }
 }

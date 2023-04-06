@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using FluentAssertions;
 using ResultRail;
 using ResultRail.Extensions;
@@ -51,13 +52,10 @@ public class SolutionTests
         var initialValue = 10;
         
         // Act
-        var result = Solution<int>
-            .RailWay(() => initialValue.ToPure())
-            .Map(x => x * 10)
-            .Finally(f => f.IsSuccess ? f.Value : 0);
+        var result = initialValue
+            .StartRail(x => x * 10, x => x > 90, new("error"));
 
         // Assert
-        result.Should().Be(resultOperation);
-
+        result.Value.Should().Be(resultOperation);
     }
 }

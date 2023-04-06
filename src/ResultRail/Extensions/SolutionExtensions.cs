@@ -1,4 +1,6 @@
-﻿namespace ResultRail.Extensions;
+﻿using System.Linq.Expressions;
+
+namespace ResultRail.Extensions;
 
 public static class SolutionExtensions
 {
@@ -17,7 +19,27 @@ public static class SolutionExtensions
         => predicate(value)
             ? Solution<T>.Success(value)
             : Solution<T>.Fail(error);
-    
+
+    public static Solution<T> StartRail<T>(this T value,
+        Expression<Func<T, T>> func,
+        Func<T, bool> predicate,
+        Error? error = null)
+        where T : new()
+    {
+        try
+        {
+            var result = func.Compile().Invoke(value);
+
+            return predicate(result)
+                ? Solution<T>.Success(result)
+                : Solution<T>.Fail(error);
+        }
+        catch (Exception e)
+        {
+            return Solution<T>.Fail(e);
+        }
+    } 
+
 
     public static Solution<T> RailSuccess<T>(this Solution<T> solution,
         Action<T> action)
@@ -38,18 +60,29 @@ public static class SolutionExtensions
 
         return solution;
     }
+
+    public static Solution<TR> Map<T, TR>(this Solution<T> solution, 
+        Func<T, TR> func) 
+        where TR : new()
+        where T : new()
+    {
+        return solution.IsFailure
+            ? Solution<TR>.Fail(solution.Error)
+            : Solution<TR>.Success(func(solution.Value));
+    }
+
+    public static Solution<TR> Bind<T, TR>(this Solution<T> solution,
+        Func<T, Solution<TR>> func)
+        where TR : new()
+        where T : new()
+    {
+        return solution.IsFailure
+            ? Solution<TR>.Fail(solution.Error)
+            : func(solution.Value);
+    }
     
     public static TR Finally<T, TR>(this Solution<T> result,
         Func<Solution<T>, TR> func)
         where T : new()
         => func(result);
-    
-    public static Solution<TR> Map<T, TR>(this Solution<T> result, Func<T, TR> func) 
-        where TR : new()
-        where T : new()
-    {
-        return result.IsFailure
-            ? Solution<TR>.Fail(result.Error)
-            : Solution<TR>.Success(func(result.Value));
-    }
 }
