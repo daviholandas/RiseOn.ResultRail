@@ -5,13 +5,13 @@ using ResultRail.Extensions;
 
 namespace RiseOn.ResultRail.Tests;
 
-public class SolutionTests
+public class UpshotTests
 {
     [Fact]
     public void Success_ShouldReturnSuccessOperation()
     {
         // Arrange
-        var operation = Solution.Success();
+        var operation = Upshot.Success();
        
         // Act
         var result = operation.IsSuccess;
@@ -24,7 +24,7 @@ public class SolutionTests
     public void Success_ShouldReturnSuccessOperationAndValue()
     {
         // Arrange
-        var operation = Solution<int>.Success(10);
+        var operation = Upshot<int>.Success(10);
        
         // Act
         var result = operation.Value;
@@ -37,7 +37,7 @@ public class SolutionTests
     public void Success_ShouldReturnErrorOperation()
     {
         // Arrange
-        var operation = Solution.Fail(new ArgumentException("Exception"));
+        var operation = Upshot.Fail(new ArgumentException("Exception"));
         
         // Act & Assert
         operation.Error?.Exception.Should().BeOfType<ArgumentException>();
@@ -45,17 +45,19 @@ public class SolutionTests
     }
 
     [Fact]
-    public void RailWay_ShouldResultOfOperation()
+    public void ToUpshot_ShouldTra()
     {
         // Arrange
         var resultOperation = 100;
         var initialValue = 10;
+        var operation = (int x) => x * 11;
         
         // Act
-        var result = initialValue
-            .StartRail(x => x * 10, x => x > 90, new("error"));
+        var result = operation(initialValue)
+            .StartRailWay(x => x == 100, new Error("error"));
 
         // Assert
-        result.Value.Should().Be(resultOperation);
+        result.IsFailure.Should().BeTrue();
+        result.Error?.Message.Should().Be("error");
     }
 }

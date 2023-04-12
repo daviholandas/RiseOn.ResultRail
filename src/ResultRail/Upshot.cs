@@ -1,7 +1,7 @@
 ﻿namespace ResultRail;
 
-public readonly struct Solution
-    : IResult
+public readonly struct Upshot
+    : IUpshot
 {
     public  bool IsSuccess { get; }
     
@@ -12,7 +12,7 @@ public readonly struct Solution
 
     public string Message { get; }
 
-    private Solution(bool isSuccess,
+    private Upshot(bool isSuccess,
         string? message,
         Error? error)
     {
@@ -24,21 +24,24 @@ public readonly struct Solution
                   string.Empty;
     }
     
-    public static Solution Success() 
+    public static Upshot Success() 
         => new (true, null, null);
     
-    public static Solution Fail(string message, Exception exception)
+    public static Upshot Fail(string message, Exception exception)
         => new (false, message,  new (message, exception));
 
-    public static Solution Fail(Exception exception)
+    public static Upshot Fail(Exception exception)
         => new (false, null, new (exception));
-    
-    public static Solution Fail(string message)
+
+    public static Upshot Fail(string message)
         => new (false, message, null);
+
+    public static Upshot Fail(Error? error)
+        => new (false, error?.Message, error);
 }
 
-public readonly struct Solution<T>
-    : IResult<T> where T : new()
+public readonly struct Upshot<T>
+    : IUpshot<T> where T : new()
 {
     public bool IsSuccess { get; }
     
@@ -51,7 +54,7 @@ public readonly struct Solution<T>
 
     public T Value { get; }
 
-    private Solution(bool isSuccess,
+    private Upshot(bool isSuccess,
         string? message,
         Error? error,
         T value)
@@ -65,15 +68,15 @@ public readonly struct Solution<T>
                   string.Empty;
     }
 
-    public static Solution<T> Success(T value)
+    public static Upshot<T> Success(T value)
         => new (true, null, null, value);
     
-    public static Solution<T> Fail(Exception exception)
+    public static Upshot<T> Fail(Exception exception)
         => new (false, null, new (exception), default!);
     
-    public static Solution<T> Fail(string message)
+    public static Upshot<T> Fail(string message)
         => new (false, message, null, default!);
     
-    public static Solution<T> Fail(Error? error)
+    public static Upshot<T> Fail(Error? error)
         => new (false, error?.Message, error, default!);
 }

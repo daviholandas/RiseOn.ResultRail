@@ -1,6 +1,6 @@
 ﻿namespace ResultRail;
 
-public interface IResult
+public interface IUpshot
 {
     bool IsSuccess { get; }
     
@@ -11,8 +11,8 @@ public interface IResult
     string Message { get; }
 }
 
-public interface IResult<out T>
-    : IResult where T : new()
+public interface IUpshot<out T>
+    : IUpshot where T : new()
 {
     T Value { get; }
 }
