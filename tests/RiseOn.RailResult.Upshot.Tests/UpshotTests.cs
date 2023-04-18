@@ -1,9 +1,7 @@
-using System.Linq.Expressions;
 using FluentAssertions;
-using ResultRail;
-using ResultRail.Extensions;
+using RiseOn.RailResult.Upshot.Extensions;
 
-namespace RiseOn.ResultRail.Tests;
+namespace RiseOn.RailResult.Upshot.Tests;
 
 public class UpshotTests
 {
@@ -12,7 +10,7 @@ public class UpshotTests
     {
         // Arrange
         var operation = Upshot.Success();
-       
+
         // Act
         var result = operation.IsSuccess;
         
@@ -45,7 +43,7 @@ public class UpshotTests
     }
 
     [Fact]
-    public void ToUpshot_ShouldTra()
+    public void StartRailWay_ShouldWrapOperationAndReturnUpshotMessageError()
     {
         // Arrange
         var resultOperation = 100;
@@ -54,7 +52,7 @@ public class UpshotTests
         
         // Act
         var result = operation(initialValue)
-            .StartRailWay(x => x == 100, new Error("error"));
+            .StartRailWay(x => x == resultOperation, new Error("error"));
 
         // Assert
         result.IsFailure.Should().BeTrue();

@@ -1,4 +1,4 @@
-﻿namespace ResultRail;
+﻿namespace RiseOn.RailResult.Upshot;
 
 public readonly struct Upshot
     : IUpshot

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace ResultRail.Extensions;
+namespace RiseOn.RailResult.Upshot.Extensions;
 
 public static partial class UpshotExtensions
 {

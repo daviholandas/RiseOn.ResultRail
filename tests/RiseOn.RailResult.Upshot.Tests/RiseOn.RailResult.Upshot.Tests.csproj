@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ResultRail\ResultRail.csproj" />
+      <ProjectReference Include="..\..\src\RiseOn.RailResult.Upshot\RiseOn.RailResult.Upshot.csproj" />
     </ItemGroup>
 
 </Project>

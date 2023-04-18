@@ -1,0 +1,7 @@
+﻿name: RiseOn Result Rial Package
+
+on:
+  push:
+    branches: [ master]
+  pull_request:
+    branches: [ master]

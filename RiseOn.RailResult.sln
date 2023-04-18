@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 #
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{389C3A36-753F-49A5-91A7-AB1FC549E1F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResultRail", "src\ResultRail\ResultRail.csproj", "{DD69D40E-0F55-43E2-AA2C-71CC2C53A18B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseOn.RailResult.Upshot", "src\RiseOn.RailResult.Upshot\RiseOn.RailResult.Upshot.csproj", "{DD69D40E-0F55-43E2-AA2C-71CC2C53A18B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{304F5F1B-60F3-48EE-850C-365748241231}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseOn.ResultRail.Tests", "tests\RiseOn.ResultRail.Tests\RiseOn.ResultRail.Tests.csproj", "{281A3299-82BB-4DB4-981A-7943246FA095}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseOn.RailResult.Upshot.Tests", "tests\RiseOn.RailResult.Upshot.Tests\RiseOn.RailResult.Upshot.Tests.csproj", "{281A3299-82BB-4DB4-981A-7943246FA095}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

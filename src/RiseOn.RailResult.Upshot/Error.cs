@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ResultRail;
+namespace RiseOn.RailResult.Upshot;
 
 public readonly record struct Error(string? Message,
     Exception? Exception)
