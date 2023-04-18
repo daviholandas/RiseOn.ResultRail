@@ -24,7 +24,7 @@ steps:
 - script: dotnet restore
   displayName: 'Restore'
 
-- script: dotnet build --configuration $(buildConfiguration) -o $(Build.ArtfactStagingDirectory)
+- script: dotnet build --configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
   displayName: Build
 
 - task: NuGetCommand@2
