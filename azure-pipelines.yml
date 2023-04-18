@@ -37,5 +37,5 @@ steps:
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: internal
-    publishVstsFeed: '$(RISEON_FEED)'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'f67aa3e2-f58c-4259-92a0-d080764e07ed'
