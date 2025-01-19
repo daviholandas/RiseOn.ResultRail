@@ -1,5 +1,5 @@
-using FluentAssertions;
 using RiseOn.RailResult.Upshot.Extensions;
+using Shouldly;
 
 namespace RiseOn.RailResult.Upshot.Tests;
 
@@ -15,7 +15,7 @@ public class UpshotTests
         var result = operation.IsSuccess;
         
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
     
     [Fact]
@@ -28,7 +28,7 @@ public class UpshotTests
         var result = operation.Value;
         
         // Assert
-        result.Should().Be(10);
+        result.ShouldBe(10);
     }
     
     [Fact]
@@ -38,8 +38,8 @@ public class UpshotTests
         var operation = Upshot.Fail(new ArgumentException("Exception"));
         
         // Act & Assert
-        operation.Error?.Exception.Should().BeOfType<ArgumentException>();
-        operation.Message.Should().Be(operation.Error?.Exception?.Message);
+        operation.Error?.Exception.ShouldBeOfType<ArgumentException>();
+        operation.Message.ShouldBe(operation.Error?.Exception?.Message);
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class UpshotTests
             .StartRailWay(x => x == resultOperation, new Error("error"));
 
         // Assert
-        result.IsFailure.Should().BeTrue();
-        result.Error?.Message.Should().Be("error");
+        result.IsFailure.ShouldBeTrue();
+        result.Error?.Message.ShouldBe("error");
     }
 }

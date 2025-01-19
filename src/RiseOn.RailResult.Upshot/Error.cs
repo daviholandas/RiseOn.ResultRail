@@ -1,7 +1,9 @@
 ﻿using System.Text;
 
 namespace RiseOn.RailResult.Upshot;
-
+// <summary>
+// Represents an error that occurred during the execution of a method.
+// </summary>
 public readonly record struct Error(string? Message,
     Exception? Exception)
 {

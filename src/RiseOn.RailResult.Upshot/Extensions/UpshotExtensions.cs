@@ -4,9 +4,8 @@ namespace RiseOn.RailResult.Upshot.Extensions;
 
 public static partial class UpshotExtensions
 {
-    public static Upshot RailSuccess<T>(this Upshot upshot,
+    public static Upshot OnSuccessRail(this Upshot upshot,
         Action action)
-        where T : new()
     {
         if (upshot.IsSuccess)
             action();
@@ -14,13 +13,29 @@ public static partial class UpshotExtensions
         return upshot;
     }
     
-    public static Upshot RailFail<T>(this Upshot upshot,
+    public static Upshot OnFailRail(this Upshot upshot,
         Action action)
-        where T : new()
+
     {
         if (upshot.IsFailure)
             action();
 
         return upshot;
+    }
+
+    public static IUpshot StartRailWay(this Upshot upshot,
+        Expression<Func<Upshot>> onSuccess, 
+        Expression<Func<Upshot>> onFail)
+    {
+        try
+        {
+            return upshot.IsSuccess
+                ? onSuccess.Compile().Invoke()
+                : onFail.Compile().Invoke();
+        }
+        catch (Exception e)
+        {
+            return Upshot.Fail(e);
+        }
     }
 }
