@@ -48,11 +48,16 @@ public class UpshotTests
         // Arrange
         var resultOperation = 100;
         var initialValue = 10;
-        var operation = (int x) => x * 11;
-        
+        Func<Upshot> operation = () => Upshot.Success();
+
+        var re = resultOperation.OnRail(
+            r => Upshot<int>.Success(r * 10)
+            .OnRailSuccess(t => Upshot<int>.Success(t.Value * 10)));
+
         // Act
-        var result = operation(initialValue)
-            .StartRailWay(x => x == resultOperation, new Error("error"));
+        var result = operation();
+        result.OnRail(result => Upshot.Fail("TEST")
+        .OnRailFail(re => Console.WriteLine(re.Message)));
 
         // Assert
         result.IsFailure.ShouldBeTrue();

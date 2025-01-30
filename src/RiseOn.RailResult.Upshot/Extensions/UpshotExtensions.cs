@@ -4,38 +4,30 @@ namespace RiseOn.RailResult.Upshot.Extensions;
 
 public static partial class UpshotExtensions
 {
-    public static Upshot OnSuccessRail(this Upshot upshot,
-        Action action)
+    public static Upshot OnRailSuccess(this Upshot upshot,
+        Action<Upshot> action)
     {
         if (upshot.IsSuccess)
-            action();
+            action(upshot);
 
         return upshot;
     }
     
-    public static Upshot OnFailRail(this Upshot upshot,
-        Action action)
-
+    public static Upshot OnRailFail(this Upshot upshot,
+        Action<Upshot> action)
     {
         if (upshot.IsFailure)
-            action();
+            action(upshot);
 
         return upshot;
     }
 
-    public static IUpshot StartRailWay(this Upshot upshot,
-        Expression<Func<Upshot>> onSuccess, 
-        Expression<Func<Upshot>> onFail)
+    public static Upshot OnRail(this Upshot upshot,
+        Expression<Func<Upshot, Upshot>> expression)
     {
-        try
-        {
-            return upshot.IsSuccess
-                ? onSuccess.Compile().Invoke()
-                : onFail.Compile().Invoke();
-        }
-        catch (Exception e)
-        {
-            return Upshot.Fail(e);
-        }
+        return upshot.IsSuccess
+            ? expression.Compile().Invoke(upshot)
+            : upshot;
+        //TODO: It's wrong. It doing the same thing of OnRailSuccess
     }
 }
