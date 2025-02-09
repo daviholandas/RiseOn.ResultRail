@@ -30,4 +30,20 @@ public static partial class UpshotExtensions
             : upshot;
         //TODO: It's wrong. It doing the same thing of OnRailSuccess
     }
+
+    public static TR Map<TR>(this Upshot upshot,
+        Func<Upshot, TR> func)
+    {
+        return func(upshot);
+    }
+
+    public static Upshot<TR> Map<TR>(this Upshot upshot,
+        Func<TR> func)
+        where TR : new ()
+    {
+        if(upshot.IsFailure)
+            return Upshot<TR>.Fail(upshot.Message);
+
+        return Upshot<TR>.Success(func());
+    }
 }
