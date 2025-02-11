@@ -48,14 +48,14 @@ public class UpshotTests
         // Arrange
         var resultOperation = 100;
         var initialValue = 10;
-        
-        Func<int, Upshot<int>> failFun = value => Upshot<int>.Success(value / 10);
-        Func<int, Upshot<int>> successFun = value => Upshot<int>.Success(value * 10);
+
+        Func<int, Upshot<double>> failFun = value => Upshot<double>.Success(value / 10);
+        Func<int, Upshot<double>> successFun = value => Upshot<double>.Success(value * 10);
 
         // Act
         var result = initialValue
             .OnRail(x => x > 10,
-                failRail: failFun, 
+                failRail: failFun,
                 successRail: successFun);
     }
 }

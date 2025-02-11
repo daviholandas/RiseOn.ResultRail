@@ -4,6 +4,32 @@ namespace RiseOn.RailResult.Upshot.Extensions;
 
 public static partial class UpshotExtensions
 {
+    public static IUpshot OnRail(this IUpshot upshot,
+        Func<IUpshot> successRail,
+        Func<IUpshot> failRail)
+        => upshot.IsSuccess ?
+            successRail() :
+            failRail();
+
+    public static TR OnRail<T, TR>(this T value,
+        Func<T, bool> predicate,
+        Func<T, TR> successRail,
+        Func<T, TR> failRail)
+        where T : new()
+        where TR: new()
+        => predicate(value) ?
+            successRail(value) :
+            failRail(value);
+
+    public static IUpshot OnRail<T>(this T value,
+        Func<T, bool> predicate,
+        Func<T, IUpshot> successRail,
+        Func<T, IUpshot> failRail)
+        where T : new()
+        => predicate(value) ?
+            successRail(value) :
+            failRail(value);
+
     public static Upshot OnRailSuccess(this Upshot upshot,
         Action<Upshot> action)
     {
