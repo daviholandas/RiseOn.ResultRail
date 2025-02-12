@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-#
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.35806.103
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{389C3A36-753F-49A5-91A7-AB1FC549E1F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseOn.RailResult.Upshot", "src\RiseOn.RailResult.Upshot\RiseOn.RailResult.Upshot.csproj", "{DD69D40E-0F55-43E2-AA2C-71CC2C53A18B}"
@@ -24,8 +26,14 @@ Global
 		{281A3299-82BB-4DB4-981A-7943246FA095}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{281A3299-82BB-4DB4-981A-7943246FA095}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DD69D40E-0F55-43E2-AA2C-71CC2C53A18B} = {389C3A36-753F-49A5-91A7-AB1FC549E1F3}
 		{281A3299-82BB-4DB4-981A-7943246FA095} = {304F5F1B-60F3-48EE-850C-365748241231}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B9A6B3B-1C7A-44B7-AE8E-7DD71E79FA3A}
 	EndGlobalSection
 EndGlobal

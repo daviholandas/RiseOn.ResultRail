@@ -1,82 +1,60 @@
 ﻿namespace RiseOn.RailResult.Upshot;
 
-public readonly struct Upshot
-    : IUpshot
+/// <summary>
+/// Represents the result of an operation, indicating success or failure.
+/// </summary>
+public readonly struct Upshot : IUpshot
 {
-    public  bool IsSuccess { get; }
-    
-    public bool IsFailure
-        => !IsSuccess;
-
-    public Error? Error { get; }
-
-    public string Message { get; }
-
-    private Upshot(bool isSuccess,
-        string? message,
-        Error? error)
-    {
-        IsSuccess = isSuccess;
-        Error = error;
-        Message = message ?? 
-                  error?.Message ?? 
-                  error?.Exception?.Message ??
-                  string.Empty;
-    }
-    
-    public static Upshot Success() 
-        => new (true, string.Empty, null);
-    
-    public static Upshot Fail(string message, Exception exception)
-        => new (false, message,  new (message, exception));
-
-    public static Upshot Fail(Exception exception)
-        => new (false, exception.Message, new (exception));
-
-    public static Upshot Fail(string message)
-        => new (false, message, null);
-
-    public static Upshot Fail(Error? error)
-        => new (false, error?.Message ?? string.Empty, error);
-}
-
-public readonly struct Upshot<T>
-    : IUpshot<T> where T : new()
-{
+    /// <summary>
+    /// Gets a value indicating whether the operation was successful.
+    /// </summary>
     public bool IsSuccess { get; }
-    
-    public bool IsFailure
-        => !IsSuccess;
 
-    public Error? Error { get; }
+    /// <summary>
+    /// Gets a value indicating whether the operation failed.
+    /// </summary>
+    public bool IsFailure => !IsSuccess;
 
-    public string Message { get; }
+    /// <summary>
+    /// Gets the error associated with the operation, if any.
+    /// </summary>
+    public Error Error { get; }
 
-    public T Value { get; }
-
-    private Upshot(bool isSuccess,
-        string? message,
-        Error? error,
-        T value)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Upshot"/> struct.
+    /// </summary>
+    /// <param name="isSuccess">Indicates whether the operation was successful.</param>
+    /// <param name="error">The error associated with the operation, if any.</param>
+    private Upshot(bool isSuccess, Error? error)
     {
         IsSuccess = isSuccess;
-        Error = error;
-        Value = value;
-        Message = message ?? 
-                  error?.Message ?? 
-                  error?.Exception?.Message ??
-                  string.Empty;
+        Error = error ?? default;
     }
 
-    public static Upshot<T> Success(T value)
-        => new (true, null, null, value);
-    
-    public static Upshot<T> Fail(Exception exception)
-        => new (false, exception.Message, new (exception), default!);
-    
-    public static Upshot<T> Fail(string message)
-        => new (false, message, null, default!);
-    
-    public static Upshot<T> Fail(Error? error)
-        => new (false, error?.Message ?? string.Empty, error, default!);
+    /// <summary>
+    /// Creates a successful <see cref="Upshot"/> instance.
+    /// </summary>
+    /// <returns>A successful <see cref="Upshot"/> instance.</returns>
+    public static Upshot Success() => new(true, null);
+
+    /// <summary>
+    /// Creates a failed <see cref="Upshot"/> instance with a message and an exception.
+    /// </summary>
+    /// <param name="errorMessage">The failure message.</param>
+    /// <returns>A failed <see cref="Upshot"/> instance.</returns>
+    public static Upshot Fail(string errorMessage) => new(false, errorMessage);
+
+    /// <summary>
+    /// Creates a failed <see cref="Upshot"/> instance with an exception.
+    /// </summary>
+    /// <param name="exception">The exception associated with the failure.</param>
+    /// <returns>A failed <see cref="Upshot"/> instance.</returns>
+    public static Upshot Fail(Exception exception) => new(false, exception);
+
+    /// <summary>
+    /// Creates a failed <see cref="Upshot"/> instance with an error.
+    /// </summary>
+    /// <param name="error">The error associated with the failure.</param>
+    /// <returns>A failed <see cref="Upshot"/> instance.</returns>
+    public static Upshot Fail(Error error) => new(false, error);
 }

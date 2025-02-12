@@ -1,61 +1,53 @@
-using RiseOn.RailResult.Upshot.Extensions;
 using Shouldly;
 
 namespace RiseOn.RailResult.Upshot.Tests;
 
 public class UpshotTests
 {
+    
     [Fact]
-    public void Success_ShouldReturnSuccessOperation()
+    public void Fail_WithMessageAndException_ShouldReturnFailureOperation()
     {
         // Arrange
-        var operation = Upshot.Success();
+        var message = "Error occurred";
+        var operation = Upshot.Fail(message);
 
         // Act
-        var result = operation.IsSuccess;
+        var result = operation.IsFailure;
 
         // Assert
         result.ShouldBeTrue();
+        operation.Error.Message.ShouldBe(message);
     }
 
     [Fact]
-    public void Success_ShouldReturnSuccessOperationAndValue()
+    public void Fail_WithException_ShouldReturnFailureOperation()
     {
         // Arrange
-        var operation = Upshot<int>.Success(10);
+        var exception = new InvalidOperationException("Error occurred");
+        var operation = Upshot.Fail(exception);
 
         // Act
-        var result = operation.Value;
+        var result = operation.IsFailure;
 
         // Assert
-        result.ShouldBe(10);
+        result.ShouldBeTrue();
+        operation.Error.Exception.ShouldBeOfType<InvalidOperationException>();
+        operation.Error.Message.ShouldBe(exception.Message);
     }
 
     [Fact]
-    public void Success_ShouldReturnErrorOperation()
+    public void Fail_WithMessage_ShouldReturnFailureOperation()
     {
         // Arrange
-        var operation = Upshot.Fail(new ArgumentException("Exception"));
-
-        // Act & Assert
-        operation.Error?.Exception.ShouldBeOfType<ArgumentException>();
-        operation.Message.ShouldBe(operation.Error?.Exception?.Message);
-    }
-
-    [Fact]
-    public void StartRailWay_ShouldWrapOperationAndReturnUpshotMessageError()
-    {
-        // Arrange
-        var resultOperation = 100;
-        var initialValue = 10;
-
-        Func<int, Upshot<double>> failFun = value => Upshot<double>.Success(value / 10);
-        Func<int, Upshot<double>> successFun = value => Upshot<double>.Success(value * 10);
+        var message = "Error occurred";
+        var operation = RailResult.Upshot.Upshot.Fail(message);
 
         // Act
-        var result = initialValue
-            .OnRail(x => x > 10,
-                failRail: failFun,
-                successRail: successFun);
+        var result = operation.IsFailure;
+
+        // Assert
+        result.ShouldBeTrue();
+        operation.Error.Message.ShouldBe(message);
     }
 }
