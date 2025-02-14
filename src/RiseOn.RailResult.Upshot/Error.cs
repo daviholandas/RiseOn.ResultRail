@@ -2,15 +2,13 @@
 
 namespace RiseOn.RailResult.Upshot;
 
-public readonly record struct Error(string? Message,
-    Exception? Exception)
+public readonly record struct Error
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Error"/> struct with a specified message.
     /// </summary>
     /// <param name="message">The error message.</param>
     private Error(string message)
-        : this(message, null)
     {
         Message = message;
     }
@@ -20,7 +18,6 @@ public readonly record struct Error(string? Message,
     /// </summary>
     /// <param name="exception">The exception associated with the error.</param>
     private Error(Exception? exception)
-        : this(null, exception)
     {
         Exception = exception;
         Message = exception?.Message;
