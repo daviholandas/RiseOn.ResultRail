@@ -2,7 +2,7 @@
 
 namespace RiseOn.RailResult.Upshot;
 
-public readonly record struct Error
+public readonly struct Error
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Error"/> struct with a specified message.
