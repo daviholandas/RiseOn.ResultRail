@@ -9,8 +9,9 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-
+        
         strategy:
+            max-parallel: 1
             matrix:
                 dotnet-version: [ '9.0.x', '8.0.x' ]
         
