@@ -9,24 +9,44 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                dotnet-version: [ 'netstandard2.0', '8.0.x', '9.0.x' ]
         
         steps:
         - uses: actions/checkout@v2
+  
         - name: Setup .NET Core
           uses: actions/setup-dotnet@v1
           with:
-            dotnet-version: 8.0.x
+            dotnet-version: ${{ matrix.dotnet-version }}
+
         - name: Restore dependencies
           run: dotnet restore
+
         - name: Build
           run: dotnet build --configuration Release
+
         - name: Test
-          run: dotnet test --no-restore --verbosity normal
+          run: dotnet test --no-restore --verbosity detailed
+
         - name: Publish
-          run: dotnet publish --configuration Release --output ./publish
+          run: dotnet publish --configuration Release --output ./publish/${{ matrix.dotnet-version }}
+
         - name: Package
-          run: dotnet pack --configuration Release --output ./publish
+          run: dotnet pack --configuration Release --output ./publish/${{ matrix.dotnet-version }}
+
         - name: Upload a Build Artifact
           uses: actions/upload-artifact@v4
           with:
             name: RiseOnResultRial
+            path: ./publish/${{ matrix.dotnet-version }}
+
+        - name: Set up NuGet
+          run: dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
+
+        - name: Push to NuGet
+          env:
+            NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          run: dotnet nuget push ./publish/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/
