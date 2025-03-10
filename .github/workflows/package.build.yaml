@@ -10,18 +10,13 @@ jobs:
     build:
         runs-on: ubuntu-latest
         
-        strategy:
-            max-parallel: 1
-            matrix:
-                dotnet-version: [ '9.0.x', '8.0.x' ]
-        
         steps:
         - uses: actions/checkout@v2
   
         - name: Setup .NET Core
           uses: actions/setup-dotnet@v1
           with:
-            dotnet-version: ${{ matrix.dotnet-version }}
+            dotnet-version: '9.0.x'
 
         - name: Restore dependencies
           run: dotnet restore
@@ -33,16 +28,16 @@ jobs:
           run: dotnet test --no-restore --verbosity detailed
 
         - name: Publish
-          run: dotnet publish --configuration Release --output ./publish/${{ matrix.dotnet-version }}
+          run: dotnet publish --configuration Release --output ./publish
 
         - name: Package
-          run: dotnet pack --configuration Release --output ./publish/${{ matrix.dotnet-version }}
+          run: dotnet pack --configuration Release --output ./publish
 
         - name: Upload a Build Artifact
           uses: actions/upload-artifact@v4
           with:
             name: RiseOnResultRial
-            path: ./publish/${{ matrix.dotnet-version }}
+            path: ./publish
 
         - name: Set up NuGet
           run: dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
