@@ -12,7 +12,7 @@ jobs:
 
         strategy:
             matrix:
-                dotnet-version: [ 'netstandard2.0', '8.0.x', '9.0.x' ]
+                dotnet-version: [ '5.0.x', '8.0.x', '9.0.x' ]
         
         steps:
         - uses: actions/checkout@v2
