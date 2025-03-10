@@ -28,7 +28,7 @@ jobs:
           run: dotnet test --no-restore --verbosity detailed
 
         - name: Publish
-          run: dotnet publish --configuration Release --output ./publish
+          run: dotnet publish --configuration Release --output ./publish --framework net9.0
 
         - name: Package
           run: dotnet pack --configuration Release --output ./publish
