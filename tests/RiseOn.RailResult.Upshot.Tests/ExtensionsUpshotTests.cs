@@ -109,7 +109,7 @@ public class ExtensionsUpshotTests
     public void Map_Should_Return_Mapped_Value_When_Upshot_Is_Success()
     {
         // Arrange
-        var upshot = RailResult.Upshot.Upshot.Success();
+        var upshot = Upshot.Success();
         var expectedValue = "MappedValue";
 
         Func<IUpshot, string> func = (u) => expectedValue;
@@ -125,7 +125,7 @@ public class ExtensionsUpshotTests
     public void Map_Should_Return_Default_Value_When_Upshot_Is_Failure()
     {
         // Arrange
-        var upshot = RailResult.Upshot.Upshot.Fail("Error");
+        var upshot = Upshot.Fail("Error");
         var defaultValue = "DefaultValue";
 
         Func<IUpshot, string> func = (u) => "MappedValue";

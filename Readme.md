@@ -38,12 +38,11 @@ else
 {
     Console.WriteLine($"Operation failed: {upshot.Error.Message}");
     
-    \\ or just use Error property
+    \\ or just use ToString() method
     Console.WriteLine($"Operation failed: {upshot.Error.ToString()}");
     or
     Console.WriteLine($"Operation failed: {(string)upshot.Error}");
-    
-    \\ output: Operation failed: { Message: An error occurred }
+    output: Operation failed: { Message: An error occurred }
 }
 ````
 
@@ -51,8 +50,8 @@ The `Upshot` type represents the result of an operation, indicating success or f
 For operations with a value, use `Upshot<T>`:
 
 ```csharp
-Upshot<int> upshot = Upshot.Success(42);
-Upshot<int> upshot = Upshot.Fail<int>("An error occurred"); or Upshot<int> upshot = Upshot.Fail<int>(new Exception("An error occurred"));
+Upshot<int> upshot = Upshot<int>.Success(42);
+Upshot<int> upshot = Upshot<int>.Fail("An error occurred"); or Upshot<int> upshot = Upshot<int>.Fail(new Exception("An error occurred"));
 
 var result = upshot.Value;
 
@@ -69,19 +68,26 @@ else
 ### Using UpshotExtensions
 - ### OnRailSuccess
 In `OnRailSuccess` extension to execute an action only if the operation is successful.
+Whether the operation has a value, you can use the `OnRailSuccess` extension to transform the value and return a new `Upshot` with the new value, otherwise, it will return the same `Upshot` instance.
 
 ```csharp
-Upshot upshot = Upshot.Success();
+Upshot upshot = Upshot.Success(); or Upshot upshot = Upshot<int>.Success(10);
 upshot.OnRailSuccess(() => Console.WriteLine("Operation succeeded"));
+or
+var result = upshot.OnRailSuccess(value => value + 10);
+output: result = 20;
 ````
+
 - ### OnRailFail
-In `OnRailFail` extension to execute an action only if the operation fails.
+In `OnRailFail` extension to execute an action only if the operation fails.When the operation fails, the `OnRailFail` extension will execute the specified action, otherwise, it will return the same `Upshot` instance.
 ```csharp
-Upshot upshot = Upshot.Fail("An error occurred");
+Upshot upshot = Upshot.Fail("An error occurred"); or Upshot upshot = Upshot<int>.Fail(new Exception("An error occurred"));
 upshot.OnRailFail(() => Console.WriteLine("Operation failed"));
+or
+var result = upshot.OnRailFail(error => Console.WriteLine($"Operation failed: {error.Message}"));
 ````
 - ### OnRail
-In `OnRail` extension to execute different actions based on the operation's success or failure.
+In `OnRail` extension to execute different actions based on the operation's success or failure. The `OnRail` it's a wrapper for `OnRailSuccess` and `OnRailFail` extensions.
 ```csharp
 Upshot upshot = Upshot.Success();
 upshot.OnRail(
@@ -96,3 +102,4 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contributing
 
 Contributions are welcome! Just create a Pull Request with your changes.
+If you have any questions or suggestion, feel free to open an issue.
