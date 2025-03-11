@@ -1,10 +1,19 @@
+using Newtonsoft.Json;
 using Shouldly;
+using Xunit.Abstractions;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace RiseOn.RailResult.Upshot.Tests;
 
 public class UpshotTests
 {
-    
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    public UpshotTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
     [Fact]
     public void Fail_WithMessageAndException_ShouldReturnFailureOperation()
     {
@@ -41,7 +50,7 @@ public class UpshotTests
     {
         // Arrange
         var message = "Error occurred";
-        var operation = RailResult.Upshot.Upshot.Fail(message);
+        var operation = Upshot.Fail(message);
 
         // Act
         var result = operation.IsFailure;

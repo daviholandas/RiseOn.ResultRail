@@ -39,7 +39,7 @@ jobs:
             name: RiseOnResultRial
             path: ./publish
 
-        - name: Push to NuGet
-          env:
-            NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-          run: dotnet nuget push ./publish/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+        #- name: Push to NuGet
+          #env:
+            #NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          #run: dotnet nuget push ./publish/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json

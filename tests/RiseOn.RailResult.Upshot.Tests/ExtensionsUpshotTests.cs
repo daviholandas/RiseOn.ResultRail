@@ -9,7 +9,7 @@ public class ExtensionsUpshotTests
     public void OnRail_Should_Invoke_SuccessRail_When_Upshot_Is_Success()
     {
         // Arrange
-        var upshot = RailResult.Upshot.Upshot.Success();
+        var upshot = Upshot.Success();
         bool successRailInvoked = false;
         bool failRailInvoked = false;
 

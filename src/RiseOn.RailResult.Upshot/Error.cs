@@ -5,22 +5,15 @@ namespace RiseOn.RailResult.Upshot;
 public readonly struct Error
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="Error"/> struct with a specified message.
-    /// </summary>
-    /// <param name="message">The error message.</param>
-    private Error(string message)
-    {
-        Message = message;
-    }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="Error"/> struct with a specified exception.
     /// </summary>
     /// <param name="exception">The exception associated with the error.</param>
-    private Error(Exception? exception)
+    /// <param name="message">The message associated with the error, if not informed of the message of error,  the exception message will be used.</param>
+    private Error(Exception? exception,
+        string message)
     {
         Exception = exception;
-        Message = exception?.Message;
+        Message = message;
     }
 
     /// <summary>
@@ -32,35 +25,40 @@ public readonly struct Error
     /// </summary>
     public Exception? Exception { get; }
 
-    public static implicit operator Error(string message) => new(message);
-    public static implicit operator Error(Exception exception) => new(exception);
-    public static explicit operator string(Error error) => error.Message ?? error.Exception?.Message ?? string.Empty;
+    public static implicit operator Error(string message) => new(null, message);
+    public static implicit operator Error(Exception exception) => new(exception, exception.Message);
+    public static explicit operator string(Error error) => error.ToString();
     public static explicit operator Exception(Error error) => error.Exception ?? new Exception(error.Message);
 
-
-    /// <summary>
-    /// Appends the string representation of the error to the specified <see cref="StringBuilder"/>.
-    /// </summary>
-    /// <param name="builder">The <see cref="StringBuilder"/> to append to.</param>
-    /// <returns>true if the members were appended; otherwise, false.</returns>
     private bool PrintMembers(StringBuilder builder)
+    {
+        ToString(builder);
+        return true;
+    }
+
+    public override string ToString()
+        => ToString(new StringBuilder());
+
+    private string ToString(StringBuilder builder)
     {
         if (Exception is not null)
         {
-            builder.Append("Exception = { ");
-            builder.Append("Type = ").Append(Exception.GetType().Name).Append(", ");
-            builder.Append("Message = ").Append(Exception.Message).Append(", ");
+            builder.Append("Exception = ")
+                .AppendLine("{ ")
+                    .Append("       Type = ").Append(Exception.GetType().Name).AppendLine(", ")
+                    .Append("       Message = ").Append(Exception.Message).AppendLine(", ");
             if (Exception.InnerException is not null)
-                builder.Append("InnerException = ").Append(Exception.InnerException.Message).Append(", ");
-            builder.Append("StackTrace = ").Append(Exception.StackTrace).Append(" }");
+                builder.Append("        InnerException = ").Append(Exception.InnerException.Message).AppendLine(", ");
+            if (Exception.StackTrace is not null)
+                builder.Append("        StackTrace = ").Append(Exception.StackTrace);
+
+            builder.Append(" }");
+
+            return builder.ToString();
         }
 
-        if (Exception is not null && Message is not null)
-            builder.Append(", ");
+        builder.Append("Message = ").Append(Message);
 
-        if (Message is not null)
-            builder.Append("Message = ").Append(Message);
-
-        return true;
+        return builder.ToString();
     }
 };
