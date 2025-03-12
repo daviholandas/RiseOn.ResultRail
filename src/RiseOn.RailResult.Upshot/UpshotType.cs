@@ -4,7 +4,7 @@
 /// Represents the result of an operation, indicating success or failure, with a value.
 /// </summary>
 /// <typeparam name="T">The type of the value.</typeparam>
-public readonly struct Upshot<T> : IUpshot<T> where T : new()
+public readonly struct Upshot<T> : IUpshot<T>
 {
     /// <summary>
     /// Gets a value indicating whether the operation was successful.

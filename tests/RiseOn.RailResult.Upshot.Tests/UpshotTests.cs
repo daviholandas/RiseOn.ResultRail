@@ -1,7 +1,5 @@
-using Newtonsoft.Json;
 using Shouldly;
 using Xunit.Abstractions;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace RiseOn.RailResult.Upshot.Tests;
 

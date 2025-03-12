@@ -33,8 +33,6 @@ public static partial class UpshotExtensions
         Func<T, bool> predicate,
         Func<T, TR> successRail,
         Func<T, TR> failRail)
-        where T : new()
-        where TR : new()
         => predicate(value) ? successRail(value) : failRail(value);
 
     /// <summary>
@@ -50,7 +48,6 @@ public static partial class UpshotExtensions
         Func<T, bool> predicate,
         Func<T, IUpshot> successRail,
         Func<T, IUpshot> failRail)
-        where T : new()
         => predicate(value) ? successRail(value) : failRail(value);
 
     /// <summary>

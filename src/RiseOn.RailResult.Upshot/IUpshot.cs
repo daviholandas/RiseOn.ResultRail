@@ -25,7 +25,7 @@ public interface IUpshot
 /// Represents the result of an operation with a value, indicating success or failure.
 /// </summary>
 /// <typeparam name="T">The type of the value returned by the operation.</typeparam>
-public interface IUpshot<out T> : IUpshot where T : new()
+public interface IUpshot<out T> : IUpshot
 {
     /// <summary>
     /// Gets the value returned by the operation.

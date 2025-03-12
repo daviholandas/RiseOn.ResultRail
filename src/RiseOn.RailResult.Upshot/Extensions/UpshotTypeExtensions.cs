@@ -18,8 +18,7 @@ public static partial class UpshotExtensions
         Func<T, bool> predicate,
         Func<T, IUpshot<T>> successRail,
         Func<T, IUpshot<T>> failRail)
-        where T : new()
-        => predicate(value) ? successRail(value) : failRail(value);
+            => predicate(value) ? successRail(value) : failRail(value);
 
     /// <summary>
     /// Executes the appropriate function based on the predicate result.
@@ -35,9 +34,7 @@ public static partial class UpshotExtensions
         Func<T, bool> predicate,
         Func<T, IUpshot<TR>> successRail,
         Func<T, IUpshot<TR>> failRail)
-        where T : new()
-        where TR : new()
-        => predicate(value) ? successRail(value) : failRail(value);
+            => predicate(value) ? successRail(value) : failRail(value);
 
     /// <summary>
     /// Executes the appropriate function based on the success state of the upshot.
@@ -50,8 +47,7 @@ public static partial class UpshotExtensions
     public static T OnRail<T>(this IUpshot<T> upshot,
         Func<IUpshot<T>, T> successRail,
         Func<IUpshot<T>, T> failRail)
-        where T : new()
-        => upshot.IsSuccess ? successRail(upshot) : failRail(upshot);
+            => upshot.IsSuccess ? successRail(upshot) : failRail(upshot);
 
     /// <summary>
     /// Executes the appropriate function based on the success state of the upshot.
@@ -65,9 +61,7 @@ public static partial class UpshotExtensions
     public static TR OnRail<T, TR>(this IUpshot<T> upshot,
         Func<IUpshot<T>, TR> successRail,
         Func<IUpshot<T>, TR> failRail)
-        where T : new()
-        where TR : new()
-        => upshot.IsSuccess ? successRail(upshot) : failRail(upshot);
+            => upshot.IsSuccess ? successRail(upshot) : failRail(upshot);
 
     /// <summary>
     /// Executes the specified action if the upshot is successful.
@@ -78,8 +72,7 @@ public static partial class UpshotExtensions
     /// <returns>The original upshot or the result of the action.</returns>
     public static IUpshot<T> OnRailSuccess<T>(this IUpshot<T> upshot,
         Func<IUpshot<T>, IUpshot<T>> action)
-        where T : new()
-        => upshot.IsSuccess ? action(upshot) : upshot;
+            => upshot.IsSuccess ? action(upshot) : upshot;
 
     /// <summary>
     /// Executes the specified action if the upshot is successful.
@@ -90,8 +83,7 @@ public static partial class UpshotExtensions
     /// <returns>The original upshot or the result of the action.</returns>
     public static IUpshot OnRailSuccess<T>(this IUpshot<T> upshot,
         Func<IUpshot<T>, IUpshot> action)
-        where T : new()
-        => upshot.IsSuccess ? action(upshot) : upshot;
+            => upshot.IsSuccess ? action(upshot) : upshot;
 
     /// <summary>
     /// Maps the upshot to a new result if the upshot is successful.
@@ -103,9 +95,7 @@ public static partial class UpshotExtensions
     /// <returns>The mapped result.</returns>
     public static IUpshot<TR> OnRailSuccess<T, TR>(this IUpshot<T> upshot,
         Func<IUpshot<T>, TR> action)
-        where T : new()
-        where TR : new()
-        => upshot.Map(action);
+            => upshot.Map(action);
 
     /// <summary>
     /// Maps the upshot to a new result if the upshot is successful.
@@ -117,9 +107,7 @@ public static partial class UpshotExtensions
     /// <returns>The mapped result.</returns>
     public static IUpshot<TR> OnRailSuccess<T, TR>(this IUpshot<T> upshot,
         Func<T, TR> action)
-        where T : new()
-        where TR : new()
-        => upshot.Map(action);
+            => upshot.Map(action);
 
     /// <summary>
     /// Maps the upshot to a new result if the upshot is successful.
@@ -131,9 +119,7 @@ public static partial class UpshotExtensions
     /// <returns>The mapped result.</returns>
     public static IUpshot<TR> OnRailSuccess<T, TR>(this IUpshot<T> upshot,
         Func<T, IUpshot<TR>> action)
-        where T : new()
-        where TR : new()
-        => upshot.Map(action);
+            => upshot.Map(action);
 
     /// <summary>
     /// Executes the specified action if the upshot is a failure.
@@ -144,8 +130,7 @@ public static partial class UpshotExtensions
     /// <returns>The original upshot or the result of the action.</returns>
     public static IUpshot<T> OnRailFail<T>(this IUpshot<T> upshot,
         Func<IUpshot<T>, IUpshot<T>> action)
-        where T : new()
-        => upshot.IsFailure ? action(upshot) : upshot;
+            => upshot.IsFailure ? action(upshot) : upshot;
 
     /// <summary>
     /// Maps the upshot to a new result if the upshot is a failure.
@@ -157,9 +142,7 @@ public static partial class UpshotExtensions
     /// <returns>The mapped result.</returns>
     public static IUpshot<TR> OnRailFail<T, TR>(this IUpshot<T> upshot,
         Func<IUpshot<T>, TR> action)
-        where T : new()
-        where TR : new()
-        => upshot.IsFailure ? Upshot<TR>.Success(action(upshot)) : Upshot<TR>.Fail(upshot.Error);
+            => upshot.IsFailure ? Upshot<TR>.Success(action(upshot)) : Upshot<TR>.Fail(upshot.Error);
 
     /// <summary>
     /// Maps the upshot to a new result if the upshot is a failure.
@@ -171,9 +154,7 @@ public static partial class UpshotExtensions
     /// <returns>The mapped result.</returns>
     public static IUpshot<TR> OnRailFail<T, TR>(this IUpshot<T> upshot,
         Func<T, IUpshot<TR>> action)
-        where T : new()
-        where TR : new()
-        => upshot.IsFailure ? action(upshot.Value) : Upshot<TR>.Fail(upshot.Error);
+            => upshot.IsFailure ? action(upshot.Value) : Upshot<TR>.Fail(upshot.Error);
 
     /// <summary>
     /// Maps the upshot to a new result if the upshot is a failure.
@@ -185,9 +166,7 @@ public static partial class UpshotExtensions
     /// <returns>The mapped result.</returns>
     public static IUpshot<TR> OnRailFail<T, TR>(this IUpshot<T> upshot,
         Func<T, TR> action)
-        where T : new()
-        where TR : new()
-        => upshot.IsFailure ? Upshot<TR>.Success(action(upshot.Value)) : Upshot<TR>.Fail(upshot.Error);
+            => upshot.IsFailure ? Upshot<TR>.Success(action(upshot.Value)) : Upshot<TR>.Fail(upshot.Error);
 
     /// <summary>
     /// Maps the upshot to a new result.
@@ -199,9 +178,7 @@ public static partial class UpshotExtensions
     /// <returns>The mapped result.</returns>
     public static IUpshot<TR> Map<T, TR>(this IUpshot<T> upshot,
         Func<T, TR> func)
-        where TR : new()
-        where T : new()
-        => upshot.IsSuccess ? Upshot<TR>.Success(func(upshot.Value)) : Upshot<TR>.Fail(upshot.Error);
+            => upshot.IsSuccess ? Upshot<TR>.Success(func(upshot.Value)) : Upshot<TR>.Fail(upshot.Error);
 
     /// <summary>
     /// Maps the upshot to a new result.
@@ -213,9 +190,7 @@ public static partial class UpshotExtensions
     /// <returns>The mapped result.</returns>
     public static IUpshot<TR> Map<T, TR>(this IUpshot<T> upshot,
         Func<T, IUpshot<TR>> func)
-        where TR : new()
-        where T : new()
-        => upshot.IsSuccess ? func(upshot.Value) : Upshot<TR>.Fail(upshot.Error);
+            => upshot.IsSuccess ? func(upshot.Value) : Upshot<TR>.Fail(upshot.Error);
 
     /// <summary>
     /// Maps the upshot to a new result.
@@ -227,9 +202,7 @@ public static partial class UpshotExtensions
     /// <returns>The mapped result.</returns>
     public static IUpshot<TR> Map<T, TR>(this IUpshot<T> upshot,
         Func<IUpshot<T>, TR> func)
-        where TR : new()
-        where T : new()
-        => upshot.IsSuccess ? Upshot<TR>.Success(func(upshot)) : Upshot<TR>.Fail(upshot.Error);
+            => upshot.IsSuccess ? Upshot<TR>.Success(func(upshot)) : Upshot<TR>.Fail(upshot.Error);
 
     /// <summary>
     /// Maps the upshot to a new result or returns a default value.
@@ -243,9 +216,7 @@ public static partial class UpshotExtensions
     public static TR? Map<T, TR>(this IUpshot<T> upshot,
         Func<T, TR> func,
         TR? defaultValue)
-        where TR : new()
-        where T : new()
-        => upshot.IsSuccess ? defaultValue ?? default : func(upshot.Value);
+            => upshot.IsSuccess ? defaultValue ?? default : func(upshot.Value);
 
     /// <summary>
     /// Executes the specified function and returns its result.
@@ -257,6 +228,5 @@ public static partial class UpshotExtensions
     /// <returns>The result of the executed function.</returns>
     public static TR Finally<T, TR>(this IUpshot<T> result,
         Func<IUpshot<T>, TR> func)
-        where T : new()
-        => func(result);
+            => func(result);
 }

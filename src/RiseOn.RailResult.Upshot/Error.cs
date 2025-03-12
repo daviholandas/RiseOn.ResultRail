@@ -2,7 +2,7 @@
 
 namespace RiseOn.RailResult.Upshot;
 
-public readonly struct Error
+public sealed class Error
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Error"/> struct with a specified exception.
